@@ -1,6 +1,7 @@
 'use strict'
 
 const MINE = '💣'
+const FLAG = '🚩'
 
 var gBoard
 var gGame
@@ -20,9 +21,6 @@ function onInit() {
         markedCount: 0,
         secsPassed: 0
     }
-
-
-
 }
 
 function buildBoard() {
@@ -41,7 +39,6 @@ function buildBoard() {
     }
     // board[2][2].isMine = true
     // board[3][2].isMine = true
-
     return board
 }
 
@@ -75,7 +72,7 @@ function renderBoard(board) {
             board[i][j].minesAroundCount = minesAround
             const className = `cell cell-${i}-${j}`
             // console.table(currCell)
-            strHTML += `<td class="${className}" onclick="onCellClicked(this, ${i}, ${j})">${currCell}</td>`
+            strHTML += `<td class="${className}" onclick="onCellClicked(this, ${i}, ${j})" oncontextmenu="onCellMarked(this)">${currCell}</td>`
 
         }
         strHTML += '</tr>'
@@ -87,12 +84,20 @@ function renderBoard(board) {
 }
 
 function onCellClicked(elCell, i, j) {
-    gGame.isOn = true
     const cell = gBoard[i][j]
+    gGame.isOn = true
     cell.isShown = true
+    if (!cell.isMine) gGame.shownCount++
     renderBoard(gBoard)
-    if (cell.isMine) checkGameOver()
-    return
+    console.log('gGame.shownCount', gGame.shownCount)
+}
+
+function onCellMarked(elCell) {
+    elCell.innerHTML = FLAG
+    elCell.isShown = true
+
+
+
 }
 
 function getRndBomb(board) {
@@ -101,19 +106,14 @@ function getRndBomb(board) {
         // console.log('currCell', currCell)
         if (currCell === MINE) return
         currCell.isMine = true
-
-
     }
-}
-
-function onCellMarked(elCell) {
-
 }
 
 function checkGameOver() {
     console.log('Game Over')
     gGame.isOn = false
-    onInit()
+
+
 }
 
 function expandShown(board, elCell, i, j) {
