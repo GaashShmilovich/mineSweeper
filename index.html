@@ -9,14 +9,25 @@
   </head>
   <body onload="onInit()">
     <h1>minesweeper!</h1>
+    <div class="levels">
+      <button class="buttons level1" onclick="setLevel(4,2)">easy</button>
+      <button class="buttons level2" onclick="setLevel(8,14)">medium</button>
+      <button class="buttons level3" onclick="setLevel(12,32)">hard</button>
+    </div>
+    <div class="smiley-container">
+      <button class="smiley" onclick="restartGame()"></button>
+    </div>
     <table>
-      <tbody class="board" oncontextmenu="return false;"></tbody>
+      <tbody class="board"></tbody>
     </table>
+    <div id="timer"></div>
 
-    <script src="js/utils.js"></script>
-    <script src="js/minesweeper.js"></script>
+    <h2 class="game-over"></h2>
+
     <footer>
       <p>Hi its me: Gaash Shmilovich</p>
     </footer>
+    <script src="js/utils.js"></script>
+    <script src="js/minesweeper.js"></script>
   </body>
 </html>
