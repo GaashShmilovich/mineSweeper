@@ -1,7 +1,35 @@
+:root {
+  --backgroundColor: #f1faee;
+  --timerTextBoardColor: #1d3557;
+  --buttonsColor: #4433ff;
+  --smileyButtonColor: #a8dadc;
+  --buttonsHover: #3a86ff;
+  --smileyHover: #b6e8e9;
+}
+
+.dark-theme {
+  --backgroundColor: #9d9ba3;
+  --timerTextBoardColor: #2a2438;
+  --smileyButtonColor: #5c5470;
+  --smileyHover: #4c465e;
+  --buttonsColor: #352f44;
+  --buttonsHover: #262231;
+}
+
 body {
   font-family: "Courier New", Courier, monospace;
   min-height: 100vh;
-  background-color: #f1faee;
+  background-color: var(--backgroundColor);
+}
+
+.dark-mode {
+  height: 25px;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  border: none;
+  min-width: 25px;
+  top: 10px;
 }
 
 #timer {
@@ -10,7 +38,7 @@ body {
   padding: 0.3em 1em 0.25em;
   font-weight: 400;
   font-size: 30px;
-  color: #1d3557;
+  color: var(--timerTextBoardColor);
   font-family: "Courier New", Courier, monospace;
   font-weight: bold;
   position: relative;
@@ -20,12 +48,8 @@ body {
 h1 {
   text-align: center;
   font-size: 40px;
-  color: #1d3557;
-  text-shadow: 0 1px 0 #457b9d, 0 2px 0 #457b9d, 0 3px 0 #f1faee,
-    0 4px 0 #457b9d, 0 5px 0 #457b9d, 0 6px 1px rgba(0, 0, 0, 0.1),
-    0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3),
-    0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15);
+  color: var(--timerTextBoardColor);
+  text-shadow: 2px 2px 4px var(--smileyButtonColor);
 }
 
 table {
@@ -36,7 +60,7 @@ table {
 table,
 tr,
 td {
-  border: 3px solid #1d3557;
+  border: 3px solid var(--timerTextBoardColor);
   border-collapse: collapse;
 }
 
@@ -65,18 +89,18 @@ td:hover {
   font-size: 24px;
   border: none;
   border-radius: 50%;
-  background-color: #a8dadc;
+  background-color: var(--smileyButtonColor);
   transition: 300ms;
 }
 
 .smiley:hover {
-  background-color: #b6e8e9;
+  background-color: var(--smileyHover);
   cursor: pointer;
 }
 
 footer {
   text-align: center;
-  background-color: #1d3557;
+  background-color: var(--timerTextBoardColor);
   bottom: auto;
   left: 0;
   position: absolute;
@@ -109,11 +133,11 @@ footer {
   border: none;
   box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
     7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
-  background: #4433ff;
+  background: var(--buttonsColor);
 }
 
 .buttons:hover {
-  background-color: #3a86ff;
+  background-color: var(--buttonsHover);
 }
 
 .buttons:active {
@@ -122,4 +146,17 @@ footer {
 .game-over {
   text-align: center;
   font-family: "Courier New", Courier, monospace;
+}
+
+.smiley-container h2 {
+  font-size: 20px;
+  background-color: var(--smileyButtonColor);
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+  vertical-align: middle;
+  max-width: 50px;
+  padding: 5px;
+  text-align: center;
+  color: var(--timerTextBoardColor);
 }

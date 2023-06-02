@@ -34,3 +34,13 @@ function clearTimer() {
     document.getElementById('timer').textContent = (0 / 1000).toFixed(3)
 }
 
+function darkMode() {
+    var darkModeIcon = document.querySelector('.dark-mode')
+    document.body.classList.toggle('dark-theme')
+    if (document.body.classList.contains('dark-theme')) {
+        darkModeIcon.src = "img/sun.png"
+    } else {
+        darkModeIcon.src = "img/moon.png"
+    }
+}
+

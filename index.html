@@ -10,12 +10,19 @@
   <body onload="onInit()">
     <h1>minesweeper!</h1>
     <div class="levels">
+      <img
+        src="img/moon.png"
+        alt="Dark mode"
+        class="dark-mode"
+        onclick="darkMode()"
+      />
       <button class="buttons level1" onclick="setLevel(4,2)">easy</button>
       <button class="buttons level2" onclick="setLevel(8,14)">medium</button>
       <button class="buttons level3" onclick="setLevel(12,32)">hard</button>
     </div>
     <div class="smiley-container">
       <button class="smiley" onclick="restartGame()"></button>
+      <h2>❤️ <span>3</span></h2>
     </div>
     <table>
       <tbody class="board"></tbody>
