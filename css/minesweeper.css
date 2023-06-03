@@ -143,6 +143,7 @@ footer {
 .buttons:active {
   top: 2px;
 }
+
 .game-over {
   text-align: center;
   font-family: "Courier New", Courier, monospace;
@@ -158,5 +159,5 @@ footer {
   max-width: 50px;
   padding: 5px;
   text-align: center;
-  color: var(--timerTextBoardColor);
+  color: rgb(255, 88, 88);
 }

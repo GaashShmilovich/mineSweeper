@@ -13,7 +13,6 @@ var gElMsg = document.querySelector('.game-over')
 var gElSmiley = document.querySelector('.smiley')
 var gCurrentTime = new Date()
 var gLives = 3
-
 var gLevel = {
     size: 4,
     mines: 2
@@ -80,7 +79,10 @@ function renderBoard(board) {
             }
 
             const className = `cell cell-${i}-${j}`
-            strHTML += `<td class="${className}" onclick="onCellClicked(this, ${i}, ${j})" oncontextmenu="onCellMarked(event,this,${i},${j})">${cellContent}</td>`
+            strHTML += `<td class="${className}" 
+                            onclick="onCellClicked(this, ${i}, ${j})" 
+                            oncontextmenu="onCellMarked(event,this,${i},${j})"
+                            >${cellContent}</td>`
         }
         strHTML += '</tr>'
     }
@@ -88,7 +90,7 @@ function renderBoard(board) {
     elContainer.innerHTML = strHTML
 }
 
-function setMinesNegsCount(board, rowIdx, colIdx) {
+function setMinesNegsCount(board, rowIdx, colIdx) { //counting the numbers of negs for each cell
     var count = 0
 
     for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
@@ -105,11 +107,9 @@ function setMinesNegsCount(board, rowIdx, colIdx) {
     return count
 }
 
-function getRndMines(mineNumber) {
-
+function getRndMines(mineNumber) { //get random place for mines, mines count grow by the size of the game
     var size = gLevel.size
     var minesCount = 0
-
     while (minesCount < mineNumber) {
         var rowIdx = getRandomInt(0, size - 1)
         var colIdx = getRandomInt(0, size - 1)
@@ -121,29 +121,10 @@ function getRndMines(mineNumber) {
     }
 }
 
-function setLevel(size, mines) {
-    gLevel.size = size
-    gLevel.mines = mines
-    gBoard = buildBoard()
-    gLives = 3
-    document.querySelector('.smiley-container span').innerHTML = 3
-    renderBoard(gBoard)
-    getRndMines(gLevel.mines)
-    gGame.isOn = false
-    gElSmiley.innerHTML = NORMAL
-    gElMsg.innerHTML = ''
-    stopTimer()
-    clearTimer()
-    gTimerInterval = false
-
-
-}
-
 function onCellClicked(elCell, i, j) {
     var cell = gBoard[i][j]
     if (gGame.isOn) return
     if (cell.isMarked) return
-    if (cell.isMine && cell.isShown) return
     if (cell.isShown) return
     if (!gTimerInterval) {
         startTimer()
@@ -170,14 +151,15 @@ function onCellClicked(elCell, i, j) {
             expandShown(gBoard, this, i, j)
         }
     }
-    renderBoard(gBoard)
 
+    renderBoard(gBoard)
 }
 
 function onCellMarked(event, elCell, i, j) {
     event.preventDefault()
     var cell = gBoard[i][j]
     cell.isMarked = !cell.isMarked
+
     if (cell.isMarked && cell.isMine) {
         gGame.markedCount++
     }
@@ -189,8 +171,7 @@ function onCellMarked(event, elCell, i, j) {
     renderBoard(gBoard)
 }
 
-
-function expandShown(board, elCell, i, j) {
+function expandShown(board, elCell, i, j) {//expand every cell neg that have 0 negs count
     for (var r = i - 1; r <= i + 1; r++) {
         if (r < 0 || r > board.length - 1) continue
 
@@ -211,6 +192,7 @@ function expandShown(board, elCell, i, j) {
             }
         }
     }
+
     renderBoard(board)
 }
 
@@ -221,8 +203,6 @@ function checkVictory(board) {
         gGame.isOn = false
         stopTimer()
     }
-    console.log('gGame.shownCount', gGame.shownCount)
-    console.log('gGame.markedCount', gGame.markedCount)
 }
 
 function restartGame() {
@@ -242,6 +222,22 @@ function restartGame() {
     }
     document.querySelector('.smiley').innerHTML = NORMAL
     document.querySelector('.game-over').innerHTML = ''
+}
+
+function setLevel(size, mines) {
+    gLevel.size = size
+    gLevel.mines = mines
+    gBoard = buildBoard()
+    gLives = 3
+    document.querySelector('.smiley-container span').innerHTML = 3
+    gGame.isOn = false
+    gElSmiley.innerHTML = NORMAL
+    gElMsg.innerHTML = ''
+    renderBoard(gBoard)
+    getRndMines(gLevel.mines)
+    stopTimer()
+    clearTimer()
+    gTimerInterval = false
 }
 
 function revealMines(board) {
