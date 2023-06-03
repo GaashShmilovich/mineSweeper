@@ -30,7 +30,7 @@ function onInit() {
         markedCount: 0,
         secsPassed: 0
     }
-    checkGameOver(gBoard)
+    checkVictory(gBoard)
     gElSmiley.innerHTML = NORMAL
     gElMsg.innerHTML = ''
 }
@@ -126,6 +126,7 @@ function setLevel(size, mines) {
     gLevel.mines = mines
     gBoard = buildBoard()
     gLives = 3
+    document.querySelector('.smiley-container span').innerHTML = 3
     renderBoard(gBoard)
     getRndMines(gLevel.mines)
     gGame.isOn = false
@@ -133,6 +134,8 @@ function setLevel(size, mines) {
     gElMsg.innerHTML = ''
     stopTimer()
     clearTimer()
+    gTimerInterval = false
+
 
 }
 
@@ -142,6 +145,9 @@ function onCellClicked(elCell, i, j) {
     if (cell.isMarked) return
     if (cell.isMine && cell.isShown) return
     if (cell.isShown) return
+    if (!gTimerInterval) {
+        startTimer()
+    }
 
     if (cell.isMine) {
         cell.isShown = true
@@ -158,24 +164,29 @@ function onCellClicked(elCell, i, j) {
 
     if (!cell.isMine && !cell.isMarked) {
         cell.isShown = true
+        gGame.shownCount++
+        checkVictory(gBoard)
         if (cell.minesAroundCount === 0) {
             expandShown(gBoard, this, i, j)
         }
     }
     renderBoard(gBoard)
+
 }
 
 function onCellMarked(event, elCell, i, j) {
     event.preventDefault()
     var cell = gBoard[i][j]
     cell.isMarked = !cell.isMarked
-
     if (cell.isMarked && cell.isMine) {
         gGame.markedCount++
     }
+    else if (!cell.isMarked && cell.isMine) {
+        gGame.markedCount--
+    }
 
+    checkVictory(gBoard)
     renderBoard(gBoard)
-    checkGameOver(gBoard)
 }
 
 
@@ -193,6 +204,7 @@ function expandShown(board, elCell, i, j) {
             if (minesAround > 0) return
             if (!currCell.isMine && !currCell.isMarked && !currCell.isShown) {
                 currCell.isShown = true
+                gGame.shownCount++
                 if (minesAround === 0) {
                     expandShown(gBoard, elCell, r, c)
                 }
@@ -202,22 +214,26 @@ function expandShown(board, elCell, i, j) {
     renderBoard(board)
 }
 
-function checkGameOver(board) {
-    if (gGame.markedCount === gLevel.mines) {
+function checkVictory(board) {
+    if (gGame.markedCount + gGame.shownCount === gLevel.size ** 2) {
         gElMsg.innerHTML = 'You Win'
         gElSmiley.innerHTML = HAPPY
         gGame.isOn = false
         stopTimer()
     }
+    console.log('gGame.shownCount', gGame.shownCount)
+    console.log('gGame.markedCount', gGame.markedCount)
 }
 
-
 function restartGame() {
+    gLives = 3
+    document.querySelector('.smiley-container span').innerHTML = 3
     gBoard = buildBoard()
     renderBoard(gBoard)
-    gLives = 3
-    startTimer()
     gRandomMines = getRndMines(gLevel.mines)
+    stopTimer()
+    clearTimer()
+    gTimerInterval = false
     gGame = {
         isOn: false,
         shownCount: 0,
